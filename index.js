@@ -8,11 +8,29 @@ function initMap() {
       center: { lat: 37.5642135 ,lng: 127.0016985 }
     });
   function addMarker({address, lat, lng}) {
-    new google.maps.Marker({
+    const infoWindow = new google.maps.InfoWindow({
+      content: infoToString(address, lat, lng),
+    })
+    const marker = new google.maps.Marker({
       position: {lat: Number(lat), lng: Number(lng)} ,
       map: map,
-      label: address,
     });
+    marker.addListener("click", () => {
+      if(!this.open) {
+        infoWindow.open(map,marker);
+        this.open = true;
+        return;
+      }
+      infoWindow.close();
+      this.open = false;
+    });
+  }
+
+  const infoToString = (address, lat, lng) => {
+    const toString = `<h4>${address}</h4>
+      <div>위도: ${Number(lat).toFixed(5)}</div>
+      <div>경도: ${Number(lng).toFixed(5)}</div>`;
+    return toString;
   }
 
   request.open('GET', requestURL);
@@ -22,7 +40,7 @@ function initMap() {
     const asfLocationInformations = request.response;
     for (let i=0; i < asfLocationInformations.length; i++) {
       addMarker(asfLocationInformations[i]);
-      // console.log(asfLocationInformations[i]);
+      console.log(asfLocationInformations[i]);
     }
   }
 }
