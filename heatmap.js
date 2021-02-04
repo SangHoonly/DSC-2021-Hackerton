@@ -1,13 +1,28 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-  <meta charset="utf-8">
-  <title>Google Map</title>
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB2XrmlvWyGhhIGBtxjvsmZEucF5Eto3l0&libraries=visualization&callback=initMap&region=kr" type="text/javascript"></script>
-  <script type="text/javascript">
 function initMap() {
+  // const locations = [
+  //   new google.maps.LatLng(-31.56391, 147.154312),    
+  //   new google.maps.LatLng(-33.718234, 150.363181),
+  //   new google.maps.LatLng(-33.727111, 150.371124),
+  //   new google.maps.LatLng(-33.848588, 151.209834),
+  //   new google.maps.LatLng(-33.851702, 151.216968),
+  //   new google.maps.LatLng(-34.671264, 150.863657),
+  //   new google.maps.LatLng(-35.304724, 148.662905),
+  //   new google.maps.LatLng(-36.817685, 175.699196),
+  //   new google.maps.LatLng(-36.828611, 175.790222),
+  //   new google.maps.LatLng(-37.75, 145.116667),
+  //   new google.maps.LatLng(-37.759859, 145.128708)
+  // ];
+
+  const locations = [];
+  const requestURL = 'http://13.209.245.78/first/ipserializer/?format=json';
+  const request = new XMLHttpRequest();
+  const map = new google.maps.Map(
+    document.getElementById('map'), {
+      zoom: 2.5,
+      minZoom: 2.5,
+      center: { lat: 37.5642135 ,lng: 127.0016985 },
+    });
+
   const gradient = [
     "rgba(0,0,0,0)",
     "rgb(255, 108, 108)",
@@ -23,15 +38,6 @@ function initMap() {
       "rgb(155, 10, 10)",
       "rgb(150, 0, 0)",
   ]
-  const locations = [];
-  const requestURL = 'http://13.209.245.78/first/ipserializer/?format=json';
-  const request = new XMLHttpRequest();
-  const map = new google.maps.Map(
-    document.getElementById('map'), {
-      zoom: 2.5,
-      minZoom: 2.5,
-      center: { lat: 37.5642135 ,lng: 127.0016985 },
-    });
 
   request.open('GET', requestURL);
   request.responseType = 'json';
@@ -45,6 +51,7 @@ function initMap() {
       )
       locations.push(location);
     }
+    // console.log(locations);
     const heatmap = new google.maps.visualization.HeatmapLayer({
       data: locations,
       dissipating: true,
@@ -54,14 +61,3 @@ function initMap() {
     heatmap.setMap(map);
   }
 }
-  </script>
-</head>
-
-<body>
-  <h1>안녕하세요</h1>
-  <div id="map" style="width:100%; height: 100vh;">
-  </div>
-  <h1>반가워요</h1>
-
-</body>
-</html>
