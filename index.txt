@@ -8,50 +8,76 @@
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB2XrmlvWyGhhIGBtxjvsmZEucF5Eto3l0&libraries=visualization&callback=initMap&region=kr" type="text/javascript"></script>
   <script type="text/javascript">
 function initMap() {
-  const gradient = [
-    "rgba(0,0,0,0)",
-    "rgb(255, 108, 108)",
-      "rgb(245, 98, 98)",
-      "rgb(235, 88, 88)",
-      "rgb(225, 78, 78)",
-      "rgb(215, 68, 68)",
-      "rgb(205, 58, 58)",
-      "rgb(195, 48, 48)",
-      "rgb(185, 38, 38)",
-      "rgb(175, 28, 28)",
-      "rgb(165, 18, 18)",
-      "rgb(155, 10, 10)",
-      "rgb(150, 0, 0)",
-  ]
   const locations = [];
   const requestURL = 'http://13.209.245.78/first/ipserializer/?format=json';
   const request = new XMLHttpRequest();
   const map = new google.maps.Map(
     document.getElementById('map'), {
-      zoom: 2.5,
-      minZoom: 2.5,
-      center: { lat: 37.5642135 ,lng: 127.0016985 },
+      zoom: 2,
+      center: { lat: 37.5642135 ,lng: 127.0016985 }
     });
-
-  request.open('GET', requestURL);
+    const infoToString = (location) => {
+    const toString = `<h4>${location.address}</h4>
+      <div>위도: ${location.lat.toFixed(5)}</div>
+      <div>경도: ${location.lng.toFixed(5)}</div>
+      <div>발생 일시: ${location.happened_at}</div>
+      `;
+    return toString;
+  }
+    request.open('GET', requestURL);
   request.responseType = 'json';
   request.send();
   request.onload = function() {
     const asfLocationInformations = request.response;
     for (let i=0; i < asfLocationInformations.length; i++) {
-      const location = new google.maps.LatLng(
-        Number(asfLocationInformations[i].lat),
-        Number(asfLocationInformations[i].lng)
-      )
+      // console.log(asfLocationInformations[i]);
+      const { address, happened_at } = asfLocationInformations[i];
+      const lat = Number(asfLocationInformations[i].lat);
+      const lng = Number(asfLocationInformations[i].lng);
+
+      const location = {
+        lat: lat,
+        lng: lng,
+        address: address,
+        happened_at: happened_at
+      };
+
       locations.push(location);
     }
-    const heatmap = new google.maps.visualization.HeatmapLayer({
-      data: locations,
-      dissipating: true,
-      map: map,
-      gradient: gradient,
+    const markers = locations.map((location) => {
+      const marker = new google.maps.Marker({
+        map,
+        position: location,
+      });
+      const infoWindow = new google.maps.InfoWindow({
+        content: infoToString(location),
+      })
+      marker.addListener("click", () => {
+        if(!marker.open) {
+          infoWindow.open(map,marker);
+          marker.open = true;
+          return;
+        }
+        infoWindow.close();
+        marker.open = false;
+      });
+
+      return marker;
     });
-    heatmap.setMap(map);
+    const clusterOptions = {
+      imagePath: "./img/",
+      imageSizes: [38, 38],
+      gridSize: 30,
+      zoomOnClick: true,
+    };
+
+    const markerClusterer = new MarkerClusterer(map, markers, clusterOptions);
+
+    const styles = markerClusterer.getStyles();
+    for (let i=0; i<styles.length; i++) {
+      styles[i].textSize = 10;
+    }
+
   }
 }
   </script>
@@ -59,7 +85,7 @@ function initMap() {
 
 <body>
   <h1>안녕하세요</h1>
-  <div id="map" style="width:100%; height: 100vh;">
+  <div id="map" style="width:100%; height: 80vh;">
   </div>
   <h1>반가워요</h1>
 
