@@ -1,22 +1,10 @@
-function initMap() {
-  // const locations = [
-  //   new google.maps.LatLng(-31.56391, 147.154312),    
-  //   new google.maps.LatLng(-33.718234, 150.363181),
-  //   new google.maps.LatLng(-33.727111, 150.371124),
-  //   new google.maps.LatLng(-33.848588, 151.209834),
-  //   new google.maps.LatLng(-33.851702, 151.216968),
-  //   new google.maps.LatLng(-34.671264, 150.863657),
-  //   new google.maps.LatLng(-35.304724, 148.662905),
-  //   new google.maps.LatLng(-36.817685, 175.699196),
-  //   new google.maps.LatLng(-36.828611, 175.790222),
-  //   new google.maps.LatLng(-37.75, 145.116667),
-  //   new google.maps.LatLng(-37.759859, 145.128708)
-  // ];
+let map, heatmap;
 
+function initMap() {
   const locations = [];
-  const requestURL = 'http://13.209.245.78/first/ipserializer/?format=json';
+  const requestURL = 'http://13.209.183.106/first/ipserializer/?format=json';
   const request = new XMLHttpRequest();
-  const map = new google.maps.Map(
+  map = new google.maps.Map(
     document.getElementById('map'), {
       zoom: 2.5,
       minZoom: 2.5,
@@ -52,12 +40,15 @@ function initMap() {
       locations.push(location);
     }
     // console.log(locations);
-    const heatmap = new google.maps.visualization.HeatmapLayer({
+    heatmap = new google.maps.visualization.HeatmapLayer({
       data: locations,
       dissipating: true,
       map: map,
       gradient: gradient,
     });
-    heatmap.setMap(map);
+    // heatmap.setMap(map);
+    console.log(locations.length);
+
+    
   }
-}
+}  
