@@ -1,6 +1,22 @@
+const gradient = [
+  "rgba(0,0,0,0)",
+  "rgb(255, 70, 70)",
+    "rgb(240, 55, 55)",
+    "rgb(226, 40, 40)",
+    "rgb(213, 25, 25)",
+    "rgb(200, 10, 10)",
+    "rgb(189, 0, 0)",
+    "rgb(177, 0, 0)",
+    "rgb(165, 0, 0)",
+    "rgb(156, 0, 0)",
+    "rgb(143, 0, 0)",
+    "rgb(130, 0, 0)",
+    "rgb(120, 0, 0)",
+]
+
 function initMap() {
   const locations = [];
-  const requestURL = 'http://http://13.209.183.106/first/ipserializer/?format=json';
+  const requestURL = 'http://13.209.183.106/first/ipserializer/?format=json';
   const request = new XMLHttpRequest();
   const map = new google.maps.Map(
     document.getElementById('map'), {
@@ -8,26 +24,6 @@ function initMap() {
       minZoom: 2.5,
       center: { lat: 37.5642135 ,lng: 127.0016985 }
     });
-  // function addMarker({address, lat, lng}) {
-  //   const infoWindow = new google.maps.InfoWindow({
-  //     content: infoToString(address, lat, lng),
-  //   })
-  //   const marker = new google.maps.Marker({
-  //     position: {lat: Number(lat), lng: Number(lng)} ,
-  //     map: map,
-  //   });
-  //   marker.addListener("click", () => {
-  //     if(!this.open) {
-  //       infoWindow.open(map,marker);
-  //       this.open = true;
-  //       return;
-  //     }
-  //     infoWindow.close();
-  //     this.open = false;
-  //   });
-  //   return marker;
-  // }
-
   const infoToString = (location) => {
     const toString = `<h4>${location.address}</h4>
       <div>위도: ${location.lat.toFixed(5)}</div>
@@ -36,7 +32,7 @@ function initMap() {
       `;
     return toString;
   }
-  const markers = [];
+  const heatmapLocations = [];
 
   request.open('GET', requestURL);
   request.responseType = 'json';
@@ -44,80 +40,45 @@ function initMap() {
   request.onload = function() {
     const asfLocationInformations = request.response;
     for (let i=0; i < asfLocationInformations.length; i++) {
-      // console.log(asfLocationInformations[i]);
       const { address, happened_at } = asfLocationInformations[i];
       const lat = Number(asfLocationInformations[i].lat);
       const lng = Number(asfLocationInformations[i].lng);
-
+      
+      if ( 
+        (((-145 > lng && lng  > -178 ) || ( lng  > 145 )) && ( 27 > lat && lat > -10)) ||
+        ((lng > 56 && lng < 97) && (lat < 8 && lat > -8)) ||
+        (( -100 < lng && lng < -21) && ( 0 < lat && lat < 50)) 
+      ){
+        continue;
+      }
+      
+      const heatmapLocation = new google.maps.LatLng(lat, lng);
       const location = {
         lat: lat,
         lng: lng,
         address: address,
         happened_at: happened_at
       };
-
       locations.push(location);
-
-      // infoWindow 핸들링
-      // const infoWindow = new google.maps.InfoWindow({
-      //   content: infoToString(asfLocationInformations[i].address, location),
-      // })
-
-      // marker.addListener("click", () => {
-      //   if(!marker.open) {
-      //     infoWindow.open(map,marker);
-      //     marker.open = true;
-      //     return;
-      //   }
-      //   infoWindow.close();
-      //   marker.open = false;
-      // });
-
-      // markers.push(marker);
-      // console.log(markers);
+      heatmapLocations.push(heatmapLocation);
     }
+    const heatmap = new google.maps.visualization.HeatmapLayer({
+      data: heatmapLocations,
+      dissipating: true,
+      map: map,
+      gradient: gradient,
+    });
+    
     const markers = locations.map((location) => {
-      // console.log({ lat: location.lat, lng: location.lng });
       const marker = new google.maps.Marker({
-        // center: new google.maps.LatLng(location.lat, location.lng),
         map,
-        // map: map,
         position: location,
-
-        // circle 
-        // strokeColor: "#FF0000",
-        // strokeOpacity: 0.8,
-        // strokeWeight: 2,
-        // fillColor: "#FF0000",
-        // fillOpacity: 0.35,
-        // radius: 100000,
+        icon: "./virus.png",
       });
-      const circle = new google.maps.Circle({
-        strokeColor: "#FF0000",
-        strokeOpacity: 0.8,
-        strokeWeight: 2,
-        fillColor: "#FF0000",
-        fillOpacity: 0.35,
-        radius: 100000,
-      });
-      circle.bindTo('center', marker, 'position');
-      circle.bindTo('map', marker, 'map');
-
-      console.log(marker);
+   
       const infoWindow = new google.maps.InfoWindow({
         content: infoToString(location),
       })
-
-      // google.maps.event.addListener(marker, 'click', () => {
-      //   if(!marker.open) {
-      //     infoWindow.setPosition(marker.getCenter());
-      //     infoWindow.open(map);
-      //     marker.open = true;
-      //     return;
-      //   }
-      //   infoWindow.close();
-      //   marker.open = false;
-      // });
 
       marker.addListener("click", () => {
         if(!marker.open) {
@@ -135,7 +96,7 @@ function initMap() {
     const clusterOptions = {
       imagePath: "./img/",
       imageSizes: [38, 38],
-      gridSize: 30,
+      gridSize: 45,
       zoomOnClick: true,
     };
 

@@ -1,0 +1,84 @@
+<link href="./navbar.css" rel="stylesheet">
+
+<html>
+<title>관리자 모드</title>
+
+<nav class="navbar">
+    <a class="navbar-brand" style="font-family: jua;"> DSC Hackathon 오이당근팀</a>
+</nav>
+
+<style>
+
+    @font-face {
+        font-family: "jua";
+        src: url("fonts/BMJUA.ttf");
+    }
+
+    @font-face {
+        font-family: "nanum";
+        src: url("fonts/nanumsquareregular.ttf");
+    }
+
+    #btn {
+        padding: 30px 0 ;
+        border-radius: 0.35em;
+        letter-spacing: 0.20.em;
+        font-weight: bold;
+        font-size: 0.75em;
+        font-family: nanum;
+        border: 0;
+        outline: 0;
+        width: 200px;
+        margin: 14px 0;
+        color: rgba(0, 0, 0, 0.8);
+    }
+
+    div {
+        text-align: center;
+        color: rgba(0, 0, 0, 0.8);
+    }
+
+    .admin_container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+    }
+
+    #img {
+        margin: 20px 20px;
+        color: rgba(0, 0, 0, 0.8);
+    }
+    .admin {
+        margin: 0px 30px;
+    }
+
+</style>
+
+<body>
+
+    <div class="admin_container">
+        <div class="admin">
+            <img id="img" src="img/admin.png" width="180" alt="admin">
+            <div>원하는 목록을 클릭하세요</div>
+        </div>
+        <div>
+            <div>
+                <button id="btn" onclick=" location.href='http://13.209.183.106/first/list/'">발생지 목록</button>
+            </div>
+
+            <div>
+                <button id="btn"
+                    onclick="location.href='http://13.209.183.106/first/ipserializer/'">ipserializer (API서버)</button>
+            </div>
+
+            <div>
+                <button id="btn" onclick="location.href='main.html'">메인 화면</button>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>

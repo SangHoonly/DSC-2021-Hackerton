@@ -1,0 +1,21 @@
+.navbar {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+
+  /* type 1 */
+  /* background: #36393A;
+  color: #f2f2f2; */
+
+  /* type 2 */
+  background:rgba(0,0,0,0.7);
+  color:#EAEBEB;
+
+
+  font-size: 22px;
+  /* font-weight: bold; */
+}
+

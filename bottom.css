@@ -1,0 +1,14 @@
+.bottom {
+  background-color: rgba(0,0,0,0.7);
+  font-family: jua;
+  font-weight: lighter;
+  font-size: 18px;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+.bottom a {
+  color: white;
+  text-decoration: none;
+  padding: 0 25px;
+}

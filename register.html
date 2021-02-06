@@ -1,0 +1,178 @@
+<link href="./navbar.css" rel="stylesheet">
+
+<nav class="navbar">
+    <a class="navbar-brand" style="font-family: jua;"> DSC Hackathon 오이당근팀</a>
+</nav>
+
+<style>
+    #form_legend {
+        font-weight: bold;
+        text-align: center;
+        border-radius: 30px;
+    }
+
+    .form_container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: 30px;
+    }
+
+    .lobel_font {
+        font-size: 20px;
+        background-color: red;
+    }
+
+    @font-face {
+        font-family: "jua";
+        src: url("fonts/BMJUA.ttf");
+    }
+
+    @font-face {
+        font-family: "nanum";
+        src: url("fonts/nanumsquareregular.ttf");
+    }
+
+    #btnRegister {
+        background-color: #0d89dbea;
+        color: white;
+        padding: 0.65em 2.5em 0.75em 2.5em;
+        border-radius: 0.35em;
+        letter-spacing: 0.20.em;
+        font-weight: bold;
+        font-size: 0.90em;
+        font-family: nanum;
+        border: 0;
+        outline: 0;
+        box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+        text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+    }
+
+    #btnClear {
+        background-color: #d64936f8;
+        color: white;
+        padding: 0.65em 2.5em 0.75em 2.5em;
+        border-radius: 0.5em;
+        letter-spacing: 0.20.em;
+        font-weight: bold;
+        font-size: 0.90em;
+        font-family: nanum;
+        border: 0;
+        outline: 0;
+        box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+        text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+    }
+
+    .formRegister {
+        font-family: nanum;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .formContent {
+        font-family: nanum;
+        margin-top: 5px 5px;
+    }
+
+    .label_font {
+        font-weight: bold;
+        font-size: 20px;
+        color: rgba(0, 0, 0, 0.8);
+    }
+
+    .formContent input {
+        border: none;
+        height: 30px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+        margin: 10px;
+
+    }
+
+    .formContent input::placeholder {
+        border-color: white;
+    }
+
+    .formContent input:focus {
+        border-color: white;
+    }
+</style>
+
+<br>
+
+<form>
+    <fieldset>
+
+        <legend id="form_legend">ASF 발생지 등록</legend>
+        <div class="form_Container">
+            <div class="formRegister">
+                <label for="country" class="label_font">국가명</label>
+                <div class="formContent">
+                    <input id="country" name="country" type="text">
+                </div>
+            </div>
+
+            <div class="formRegister">
+                <label for="area" class="label_font">발생지역</label>
+                <div class="formContent">
+                    <input id="area" name="area" type="text" required="" style="height: 30px;">
+                </div>
+            </div>
+
+            <div class="formRegister">
+                <label for="latitude" class="label_font">위도</label>
+                <div class="formContent">
+                    <input id="latitude" name="latitude" type="number" required="" style="height: 30px;">
+                </div>
+            </div>
+
+            <div class="formRegister">
+                <label for="longitude" class="label_font">경도</label>
+                <div class="formContent">
+                    <input id="longitude" name="longitude" type="number" required="" style="height: 30px;">
+                </div>
+            </div>
+
+            <div class="formRegister">
+                <label for="occurDate" class="label_font">발병일</label>
+                <div class="formContent">
+                    <input id="occurDate" name="occurDate" type="text" required="" placeholder="YYYY-MM-DD"
+                        style="height: 30px;">
+                </div>
+            </div>
+
+            <div class="formRegister">
+                <label for="reportDate" class="label_font">OIE 보고일</label>
+                <div class="formContent">
+                    <input id="reportDate" name="reportDate" type="text" required="" placeholder="YYYY-MM-DD"
+                        style="height: 30px;">
+                </div>
+            </div>
+
+            <div class="formRegister">
+                <label for="detailInformation" class="label_font">세부사항</label>
+                <div class="formContent">
+                    <input id="detailInformation" name="detailInformation" type="text" required=""
+                        style="height:100px; width: 300px; border: 1px solid rgba(0, 0, 0, 0.3); border-radius: 10px;">
+                </div>
+            </div>
+
+
+            <div class="formRegister">
+                <label for="password" class="label_font">비밀번호</label>
+                <div class="formContent">
+                    <input id="password" name="password" type="password" required="" style="height: 30px;">
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <button id="btnRegister" style="margin-right: 10px;">등록</button>
+                    <button id="btnClear">초기화</button>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+</form>
